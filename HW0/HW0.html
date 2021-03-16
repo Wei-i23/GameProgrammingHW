@@ -176,15 +176,9 @@ function animate(){
 			train.rotation.y = angle;
 			
 			angle+=2*0.10472*dt;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 			angle+=0.03;
-=======
-			
->>>>>>> master
-=======
-			angle+=0.03;
->>>>>>> master
+
 			
 			if(train.position.x < 50)
 				status = 1;
@@ -192,14 +186,10 @@ function animate(){
 		else if(status == 1){
 			//train.position.set(train.position.x - 1 , 0 , train.position.z);
 			train.position.x -= 2*0.10472;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 			train.position.x -= 0.9;
-=======
->>>>>>> master
-=======
-			train.position.x -= 0.9;
->>>>>>> master
+
+
 			if(train.position.x < -50)
 				status = 2;
 		}
@@ -207,28 +197,20 @@ function animate(){
 			train.position.set(radius* Math.cos(angle)-50,10, -radius* Math.sin(angle));
 			train.rotation.y = angle;
 			angle+=2*0.10472*dt;
-<<<<<<< HEAD
-<<<<<<< HEAD
-			angle-=0.03;
-=======
->>>>>>> master
-=======
+
+
 			angle+=0.03;
->>>>>>> master
+
 			if(train.position.x > -50)
 				status = 3;
 		}
 		else if(status == 3){
 			//train.position.set(train.position.x + 1 , 0 , train.position.z);
 			train.position.x += 2*0.10472;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
 			train.position.x += 0.9;
-=======
->>>>>>> master
-=======
-			train.position.x += 0.9;
->>>>>>> master
+
 			if(train.position.x > 50)
 				status = 0;
 		}
@@ -242,8 +224,7 @@ function animate(){
 
 </script>
 </body>
-<<<<<<< HEAD
+
+
 </html>
-=======
-</html>
->>>>>>> master
+
