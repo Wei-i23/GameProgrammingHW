@@ -74,16 +74,16 @@ class Puck {
 		this.pos.z = 100-R;
 		collisionsound.play();
 	}
-	if (this.pos.x > 95-R) {
+	if (this.pos.x > 100-R) {
 		this.vel.x = - this.vel.x;
      
-		this.pos.x = 95-R;
+		this.pos.x = 100-R;
 		collisionsound.play();
 	}
-	if (this.pos.x < -95+R) {
+	if (this.pos.x < -100+R) {
 		this.vel.x = - this.vel.x;
      
-		this.pos.x = -95+R;
+		this.pos.x = -100+R;
 		collisionsound.play();
 	}
 	
@@ -183,35 +183,35 @@ function init() {
 ////////////// puck1  
   let puckMesh = buildPuckMesh (new THREE.Color().setHSL (Math.random(), .9, .4));
   
-  let puck1 = new Puck (new THREE.Vector3(0,10,0), new THREE.Vector3(4,0,10), puckMesh);
+  let puck1 = new Puck (new THREE.Vector3(-100,10,100), new THREE.Vector3(10,0,-10), puckMesh);
 	
   puck.push (puck1);
 
 ////////////// puck2	
   puckMesh = buildPuckMesh (new THREE.Color().setHSL (Math.random(), .9, .4));
   
-  let puck2 = new Puck (new THREE.Vector3(-10,10,30), new THREE.Vector3(8,0,10), puckMesh);
+  let puck2 = new Puck (new THREE.Vector3(100,10,100), new THREE.Vector3(-10,0,-10), puckMesh);
 
   puck.push (puck2);
   
 ////////////// puck3  
   puckMesh = buildPuckMesh (new THREE.Color().setHSL (Math.random(), .9, .4));
   
-  let puck3 = new Puck (new THREE.Vector3(30,10,-10), new THREE.Vector3(-4,0,5), puckMesh);
+  let puck3 = new Puck (new THREE.Vector3(30,10,-10), new THREE.Vector3(10,0,10), puckMesh);
 
   puck.push (puck3);
   
 ////////////// puck4 
   puckMesh = buildPuckMesh (new THREE.Color().setHSL (Math.random(), .9, .4));
   
-  let puck4 = new Puck (new THREE.Vector3(-50,10,10), new THREE.Vector3(4,0,10), puckMesh);
+  let puck4 = new Puck (new THREE.Vector3(-50,10,10), new THREE.Vector3(-10,0,10), puckMesh);
 
   puck.push (puck4); 
   
 ////////////// puck5
   puckMesh = buildPuckMesh (new THREE.Color().setHSL (Math.random(), .9, .4));
   
-  let puck5 = new Puck (new THREE.Vector3(10,10,50), new THREE.Vector3(-4,0,10), puckMesh);
+  let puck5 = new Puck (new THREE.Vector3(10,10,50), new THREE.Vector3(0,0,10), puckMesh);
 
   puck.push (puck5);
  
@@ -270,21 +270,27 @@ function animate() {
 	for(let i=0;i<puck.length;i++){
 		for(let j = i+1;j < puck.length;j++){
 			let test = Math.sqrt(Math.pow(puck[i].pos.x - puck[j].pos.x, 2) + Math.pow(puck[i].pos.z - puck[j].pos.z, 2)) ;
+			let collisionX = (puck[i].pos.x - puck[j].pos.x)/test;
+			let collisionZ = (puck[i].pos.z - puck[j].pos.z)/test;
+			
+			let collision_puck1_x = Math.pow(collisionX, 2) * puck[i].vel.x + collisionX * collisionZ * puck[i].vel.z;
+			let collision_puck1_z = collisionX * collisionZ*puck[i].vel.x + Math.pow(collisionZ,2)*puck[i].vel.z;
+			
+			let collision_puck2_x = Math.pow(collisionX,2)*puck[j].vel.x+collisionX*collisionZ*puck[j].vel.z;
+			let collision_puck2_z = collisionX * collisionZ*puck[j].vel.x + Math.pow(collisionZ,2)*puck[j].vel.z;
+			
 			if(test<2*R){
-				puck[i].vel.x = -puck[i].vel.x;
+				puck[i].vel.x = collision_puck2_x + (puck[i].vel.x - collision_puck1_x);
+				puck[i].vel.z = collision_puck2_z + (puck[i].vel.z - collision_puck1_z);
 				collisionsound.play();
-				puck[i].vel.z = -puck[i].vel.z;
-				collisionsound.play();
-				puck[j].vel.x = -puck[j].vel.x;
-				collisionsound.play();
-				puck[j].vel.z = -puck[j].vel.z;
+				
+				puck[j].vel.x = collision_puck1_x + (puck[j].vel.x - collision_puck2_x);
+				puck[j].vel.z = collision_puck1_z + (puck[j].vel.z - collision_puck2_z);
 				collisionsound.play();
 			}
 		
 		}
 	}
-	
-	
 	
 	requestAnimationFrame(animate);
 	render();
