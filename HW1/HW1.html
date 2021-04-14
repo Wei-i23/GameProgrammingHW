@@ -280,12 +280,12 @@ function animate() {
 			let collision_puck2_z = collisionX * collisionZ*puck[j].vel.x + Math.pow(collisionZ,2)*puck[j].vel.z;
 			
 			if(test<2*R){
-				puck[i].vel.x = collision_puck2_x + (puck[i].vel.x - collision_puck1_x);
-				puck[i].vel.z = collision_puck2_z + (puck[i].vel.z - collision_puck1_z);
+				puck[i].vel.x = (collision_puck2_x + (puck[i].vel.x - collision_puck1_x));
+				puck[i].vel.z = (collision_puck2_z + (puck[i].vel.z - collision_puck1_z));
 				collisionsound.play();
 				
-				puck[j].vel.x = collision_puck1_x + (puck[j].vel.x - collision_puck2_x);
-				puck[j].vel.z = collision_puck1_z + (puck[j].vel.z - collision_puck2_z);
+				puck[j].vel.x = (collision_puck1_x + (puck[j].vel.x - collision_puck2_x));
+				puck[j].vel.z = (collision_puck1_z + (puck[j].vel.z - collision_puck2_z));
 				collisionsound.play();
 			}
 		
