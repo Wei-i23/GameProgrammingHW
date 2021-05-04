@@ -275,7 +275,7 @@ function init() {
 	window.addEventListener('resize', onWindowResize, false);
 	
 	state = 'Stand';
-	ts = clock.getElapsedTime();
+	//ts = clock.getElapsedTime();
 	
 	power = 1.0;
 	angle = 0.0;
@@ -586,8 +586,7 @@ function update(dt){
 		angle = 1.5*Math.PI + Math.atan2(vel.x,vel.z);
 	}
 	
-	if (keyboard.pressed("space"))  
- 	   power = 0.1;
+	 
 	if (keyboard.pressed("up"))  
 		power *= 1.2;        
 	if (keyboard.pressed("down"))  
@@ -616,12 +615,6 @@ function animate() {
 	var dt = clock.getDelta();
 	update(dt);
 	
-	/*
-	//steve update
-	group.position.copy(pos);
-	group.rotation.y = angle;
-	*/
-	
 	if(keyboard.pressed('space')){		//move to walk
 		walk = true;
 				
@@ -633,6 +626,7 @@ function animate() {
 	
 	if(walk == true){
 		if(state = 'Walk'){
+			
 			group.position.copy(pos);
 			group.rotation.y = angle;
 			group.position.y = 10;
