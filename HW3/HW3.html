@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <style>
@@ -15,21 +16,27 @@ body {
 </style>
 </head>
 <body>
+
 <div id="info">
 	<h1 style='color:black'>Minecraft Steve </h1>
 	<button id='toggle' align = 'center'>Switch View</button>
 	
 	<p id='state'> </p>
 </div>
-<script src="https://threejs.org/build/three.min.js"></script>
+
+	<script src="https://threejs.org/build/three.min.js"></script>
 	<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
 	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://rawgit.com/mrdoob/three.js/master/examples/js/loaders/DDSLoader.js"></script>
+	<script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/loaders/MTLLoader.js"></script>
+	<script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/loaders/OBJLoader.js"></script>
 	<script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/misc/Gyroscope.js"></script>
 	<script src="https://jyunming-chen.github.io/tutsplus/js/KeyboardState.js"></script>
 	<script src="model.js"></script>
 	<script src="keyframe.js"></script>
+	
 
-<script type ="module">
+<script>
 javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='https://mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
 
 var camera,camera1, scene, renderer,gyro;
@@ -49,7 +56,7 @@ var head,body,leg_L,leg_R,hand_L,hand_R;
 
 var T = 1;
 var clock = new THREE.Clock();
-var ts;
+var ts =  clock.getElapsedTime();;
 
 var pos = new THREE.Vector3();
 var vel = new THREE.Vector3();
@@ -98,7 +105,7 @@ function init() {
 	var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
 	scene.add(gridXZ);
 
-	group = new THREE.Group();
+	//group = new THREE.Group();
 	
   ////////////////////////////////////////////////////////
 	var loader = new THREE.TextureLoader();
@@ -106,7 +113,7 @@ function init() {
 	texture = loader.load ('https://i.imgur.com/szSh6W0.png');
   
 	head = buildHead2(12.4,12.4,12.4);
-	//group.add (head);
+	group.add (head);
 	head.position.y = 32;
 	
 	body = buildBody2(12.4,19.1,6.2);
@@ -148,7 +155,7 @@ function init() {
 	angle = 0.0;
 	
 	//gyro camera
-	gyro = new Gyroscope();
+	gyro = new THREE.Gyroscope();
 	//scene.add (gyro)
 	group.add (gyro)
 	gyro.add (camera)
@@ -163,6 +170,7 @@ function onWindowResize() {
 	camera.updateProjectionMatrix();
 	renderer.setSize(window.innerWidth, window.innerHeight);
 }
+
 //上下左右控制
 function update(dt){
 	keyboard.update();
@@ -172,24 +180,21 @@ function update(dt){
 	if (keyboard.pressed("down"))  
 		power -= 0.5;   
 		
-	power = Math.clamp (power, 0.5, 20.0);
-		
-	var angle_thrust = angle;
 	if (keyboard.pressed("left"))
-		angle_thrust += 0.1;
+		angle += 0.05;
 	if (keyboard.pressed("right"))
-		angle_thrust -= 0.1;
+		angle -= 0.05;
 	
-	/*
-	// compute force
-	var thrust = new THREE.Vector3(1,0,0).multiplyScalar(power).applyAxisAngle (new THREE.Vector3(0,1,0), angle_thrust);
-	force.copy (thrust);
-	force.add(vel.clone().multiplyScalar(dt));
-	*/
-
+	
+	power = Math.clamp(power,0.5,20.0);
+	vel = new THREE.Vector3(power,0,0).applyAxisAngle (new THREE.Vector3(0,1,0), angle);
+	pos.add(vel.clone().multiplyScalar(dt));
+	
+	pos.y = 10;
+/*
 	// eulers
 	vel.add(force.clone().multiplyScalar(dt));
-	pos.add(vel.clone().multiplyScalar(dt));
+	pos.add(vel.clone().multiplyScalar(dt));*/
 }
 function down(event){
 	ts = clock.getElapsedTime();
@@ -201,6 +206,7 @@ function down(event){
 	
 } 
 function animate() {
+	
 	
 	keyboard.update();
 	
@@ -231,6 +237,7 @@ function animate() {
 			update(dt);
 		break;
 		}
+		
 		group.position.copy(pos);
 		group.rotation.y = angle+Math.PI/2;
 		leg_L.rotation.x = intKey[0];
@@ -239,22 +246,13 @@ function animate() {
 		hand_R.rotation.x = intKey[0];
 	}
 	
-	
-	requestAnimationFrame(animate);
-	render();
-	
-	
 	if (isSwitch)
 		renderer.render (scene, camera)
 	else
 		renderer.render (scene, camera1)
-
+		
+	requestAnimationFrame(animate);
 }
-
-function render() {
-  renderer.render(scene, camera);
-}
-
 
 </script>
 </body>

@@ -1,4 +1,3 @@
-
 function buildHead2(WW, HH, DD) {
 
 	var geometry = new THREE.BufferGeometry();	
@@ -56,10 +55,9 @@ function buildHead2(WW, HH, DD) {
 	indices.push (20,21,22, 20,22,23); // [0,1,2, 0,2,3] + 20
 	uvs.push (g.u/UU,g.v/VV, f.u/UU,f.v/VV, b.u/UU,b.v/VV, c.u/UU,c.v/VV); // g,f,b,c
 	
-	geometry.setIndex(indices);  
+	geometry.setIndex(indices);   
 	geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-	geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-	
+	geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));	
 	
 	let head = new THREE.Mesh (geometry, new THREE.MeshBasicMaterial({map: texture, side:THREE.DoubleSide}));
 	return head;
