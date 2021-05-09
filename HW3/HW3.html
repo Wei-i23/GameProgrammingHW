@@ -24,16 +24,13 @@ body {
 	<p id='state'> </p>
 </div>
 
-	<script src="https://threejs.org/build/three.min.js"></script>
-	<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-	<script src="https://rawgit.com/mrdoob/three.js/master/examples/js/loaders/DDSLoader.js"></script>
-	<script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/loaders/MTLLoader.js"></script>
-	<script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/loaders/OBJLoader.js"></script>
-	<script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/misc/Gyroscope.js"></script>
-	<script src="https://jyunming-chen.github.io/tutsplus/js/KeyboardState.js"></script>
-	<script src="model.js"></script>
-	<script src="keyframe.js"></script>
+<script src="https://threejs.org/build/three.min.js"></script>
+<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/misc/Gyroscope.js"></script>
+<script src="https://jyunming-chen.github.io/tutsplus/js/KeyboardState.js"></script>
+<script src="model.js"></script>
+<script src="keyframe.js"></script>
 	
 
 <script>
@@ -60,7 +57,6 @@ var ts =  clock.getElapsedTime();;
 
 var pos = new THREE.Vector3();
 var vel = new THREE.Vector3();
-var force = new THREE.Vector3();
 var power, angle;
 var group = new THREE.Group();
 
@@ -190,11 +186,8 @@ function update(dt){
 	vel = new THREE.Vector3(power,0,0).applyAxisAngle (new THREE.Vector3(0,1,0), angle);
 	pos.add(vel.clone().multiplyScalar(dt));
 	
+	//開始移動時的位置
 	pos.y = 10;
-/*
-	// eulers
-	vel.add(force.clone().multiplyScalar(dt));
-	pos.add(vel.clone().multiplyScalar(dt));*/
 }
 function down(event){
 	ts = clock.getElapsedTime();
