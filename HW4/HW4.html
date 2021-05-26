@@ -21,8 +21,8 @@
 
 <body>
 <div id="info">
-	<h1 style='color:black'>HW4 - Steer & Group Steer </h1>
-	<button id='toggle' align = 'center'>steer</button>
+	<h1 style='color:black'>HW4</h1>
+	<button id='toggle' align = 'center'>Group steer</button>
 </div>
 
 <script src="https://threejs.org/build/three.min.js"></script>
@@ -34,7 +34,7 @@
 		constructor (center,size) {
 			this.center = center.clone();  
 			this.mesh = new THREE.Mesh (new THREE.CylinderGeometry(size,size,1,20),
-				new THREE.MeshBasicMaterial());
+				new THREE.MeshBasicMaterial({color:0x000000}));
 			this.mesh.position.copy (center);
 			this.size = size;
 		scene.add (this.mesh)
@@ -153,17 +153,16 @@
 			  // 算出 nbhd的平均位置
 			  // 利用 targetInducedForce （來吸引 this 往平均位置靠近）	
 			  // 將此力加到 this.force
-			  let pull = new THREE.Vector3();
-			  let tPosition = new THREE.Vector3();
 			  let avePosition = new THREE.Vector3();
 			  
 			  for(let i=0;i<this.nbhd.length;i++){
-				  tPosition = tPosition + this.nbhd[i].pos;
+				  avePosition.add(this.nbhd[i].pos);
 			  }
-			  avePosition = tPosition/this.nbhd.length;
-			  pull = this.force.copy(this.targetInducedForce(avePosition))
 			  
-			  this.force.add(pull);
+			  avePosition.multiplyScalar(1/this.nbhd.length);
+			  //avePosition.add(avePosition.setLength(120 / avePosition.length()));
+			  this.force.add(this.targetInducedForce(avePosition));
+			 
 			}
 			
 		}
