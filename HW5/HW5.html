@@ -196,7 +196,7 @@ function init() {
 	let material = new THREE.MeshBasicMaterial( { color: 0xa0522d } );
 	let lathe = new THREE.Mesh( geometry, material );
 	scene.add( lathe );
-	lathe.position.set(-61,0,0);
+	lathe.position.set(-60,0,0);
 	
 	lathe.rotation.x = Math.PI;
 	lathe.rotation.z = Math.PI/2;
@@ -271,11 +271,11 @@ function init() {
 
 function Agentadd(){
     let color = Math.random()*0xffffff;
-    var mesh = new THREE.Mesh (new THREE.CircleGeometry(1,20), new THREE.MeshBasicMaterial({color:color}));
+    var mesh = new THREE.Mesh (new THREE.CircleGeometry(2,20), new THREE.MeshBasicMaterial({color:color}));
 
     let pos = new THREE.Vector3(-60,(-1+Math.random()*2)*3,0);
     agent = new Agent (pos, mesh);
-    agent.vel.set (6,2,0);
+    agent.vel.set (7,2,0);
     agents.push(agent);
     
     if(agents.length < 15)
