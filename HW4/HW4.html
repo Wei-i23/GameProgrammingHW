@@ -108,7 +108,7 @@
 		
 		// for orientable agent
 		// non PD version
-		if (this.vel.length() > 0.1) {
+		if (this.vel.length() > 1.0) {
 				this.angle = Math.atan2 (-this.vel.z, this.vel.x)
 				this.mesh.rotation.y = this.angle
 		}
